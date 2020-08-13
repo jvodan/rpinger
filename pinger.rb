@@ -20,9 +20,11 @@ class Pinger
   end
 
   def pinger
+    EM.run do
     timer = EventMachine::PeriodicTimer.new(@period) do
       r = @net_pinger.ping(@host)
       STDERR.puts("pinger got #{r}")
+    end
     end
 
   end
