@@ -9,6 +9,7 @@ begin
   $stderr.sync = true
 
   @pinger = Pinger.new
+  STDERR.puts("Got #{@pinger}")
   get '/' do
     begin
       {
