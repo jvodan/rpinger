@@ -11,7 +11,7 @@ class Pinger
     @rtt_avg = 0
     @sent = 0
     @lost = 0
-    @net_pinger = Net::Ping(@host, nil, timeout = 5)
+    @net_pinger = Net::Ping::ICMP.new(@host) #Net::Ping(@host, nil, timeout = 5)
   end
 
   def start_pinger

@@ -1,9 +1,6 @@
-require 'yajl/json_gem'
-
 begin
   require 'sinatra'
   require 'yajl'
-  require 'ffi_yajl'
 
   require 'stringio'
 
@@ -19,13 +16,11 @@ begin
     set :run, true
     set :timeout, 290
 
-
     server.threaded = settings.threaded if server.respond_to? :threaded=
 
     get '/' do
       begin
-        content-type
-        { 
+        {
           'period' => @pinger.period,
           'sent' => @pinger.sent,
           'lost' => @pinger.lost,
@@ -35,12 +30,11 @@ begin
           'max' => @pinger.rtt_max,
           }
         }.to_json
+
+      rescue StandardError => e
+        STDERR.puts('Unhandled Exception' + e.to_s + '\n' + e.backtrace.to_s )
+        e.to_json
       end
     end
-
-  rescue StandardError => e
-    STDERR.puts('Unhandled Exception' + e.to_s + '\n' + e.backtrace.to_s )
-    e.to_json
   end
-
 end
