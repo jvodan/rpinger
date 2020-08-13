@@ -9,20 +9,12 @@ begin
   $stderr.sync = true
 
 
-     def pinger
+    
+  #def pinger
        @pinger ||= Pinger.new('8.8.8.8')
-     end
+   #  end
 
-  class Application < Sinatra::Base
-    #  set :sessions, true
-    set :logging, false
-    set :run, true
-    set :timeout, 290
-    @pinger ||= Pinger.new('8.8.8.8')
-    STDERR.puts("Got #{@pinger}")
-    server.threaded = settings.threaded if server.respond_to? :threaded=
-
-    get '/' do
+  get '/pinger' do
          begin
            {
              'period' => @pinger.period,
@@ -40,6 +32,17 @@ begin
            e.to_json
          end
        end
+       
+  class Application < Sinatra::Base
+    #  set :sessions, true
+    set :logging, false
+    set :run, true
+    set :timeout, 290
+    @pinger ||= Pinger.new('8.8.8.8')
+    STDERR.puts("Got #{@pinger}")
+    server.threaded = settings.threaded if server.respond_to? :threaded=
+
+  
 
    
   end
