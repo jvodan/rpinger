@@ -2,6 +2,7 @@ class Pinger
   require 'eventmachine'
   require 'net/ping'
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
+  
   def initialize(p = 300, h = '10.26.30.92', c = 5)
     @period = p
     @count = 5
