@@ -11,13 +11,13 @@ begin
   get '/' do
        begin
          {
-           'period' => @pinger.period,
-           'sent' => @pinger.sent,
-           'lost' => @pinger.lost,
+           'period' => pinger.period,
+           'sent' => pinger.sent,
+           'lost' => pinger.lost,
            'rtt' => {
-           'avg' => @pinger.rtt_avg,
-           'min' => @pinger.rtt_min,
-           'max' => @pinger.rtt_max,
+           'avg' => pinger.rtt_avg,
+           'min' => pinger.rtt_min,
+           'max' => pinger.rtt_max,
            }
          }.to_json
    
