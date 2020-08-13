@@ -11,19 +11,19 @@ begin
 
     
   #def pinger
-       @pinger ||= Pinger.new('8.8.8.8')
+       $pinger ||= Pinger.new('8.8.8.8')
    #  end
 
   get '/pinger' do
          begin
            {
-             'period' => @pinger.period,
-             'sent' => @pinger.sent,
-             'lost' => @pinger.lost,
+             'period' => $pinger.period,
+             'sent' => $pinger.sent,
+             'lost' => $pinger.lost,
              'rtt' => {
-             'avg' => @pinger.rtt_avg,
-             'min' => @pinger.rtt_min,
-             'max' => @pinger.rtt_max,
+             'avg' => $pinger.rtt_avg,
+             'min' => $pinger.rtt_min,
+             'max' => $pinger.rtt_max,
              }
            }.to_json
      
@@ -38,8 +38,8 @@ begin
     set :logging, false
     set :run, true
     set :timeout, 290
-    @pinger ||= Pinger.new('8.8.8.8')
-    STDERR.puts("Got #{@pinger}")
+    $pinger ||= Pinger.new('8.8.8.8')
+    STDERR.puts("Got #{$pinger}")
     server.threaded = settings.threaded if server.respond_to? :threaded=
 
   
