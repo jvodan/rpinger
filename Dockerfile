@@ -8,7 +8,7 @@ RUN	apt-get -y update &&\
    gem update &&\					 
    gem install bundler &&\  				   
    gem install bundle &&\
-   gem install rainbows eventmachine net/ping sinatra yajl ffi_yajl &&\
+   gem install rake rainbows eventmachine net/ping sinatra yajl ffi_yajl &&\
    mkdir -p /opt/&&\
    cd /opt &&\
    git clone https://github.com/jvodan/rpinger.git /opt/app
