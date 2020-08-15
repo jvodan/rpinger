@@ -11,21 +11,21 @@ begin
 
     
   #def pinger
-       @pinger ||= Pinger.new(60, '8.8.8.8', 5)
+       $pinger ||= Pinger.new(60, '8.8.8.8', 5)
    #  end
-  STDERR.puts("Got #{@pinger}")
-  @pinger.start_pinger
+  STDERR.puts("Got #{$pinger}")
+  $pinger.start_pinger
   
   get '/pinger' do
          begin
            {
-             'period' => @pinger.period,
-             'sent' => @pinger.sent,
-             'lost' => @pinger.lost,
+             'period' => $pinger.period,
+             'sent' => $pinger.sent,
+             'lost' => $pinger.lost,
              'rtt' => {
-             'avg' => @pinger.rtt_avg,
-             'min' => @pinger.rtt_min,
-             'max' => @pinger.rtt_max,
+             'avg' => $pinger.rtt_avg,
+             'min' => $pinger.rtt_min,
+             'max' => $pinger.rtt_max,
              }
            }.to_json
      

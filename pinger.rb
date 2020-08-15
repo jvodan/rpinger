@@ -48,6 +48,17 @@ class Pinger
     EM.run do
       timer = EventMachine::PeriodicTimer.new(@period) do
         do_pings
+        STDERR.puts(
+                   {
+                     'period' => @period,
+                     'sent' => $pinger.sent,
+                     'lost' => @lost,
+                     'rtt' => {
+                     'avg' => $pinger.rtt_avg,
+                     'min' => $pinger.rtt_min,
+                     'max' => $pinger.rtt_max,
+                     }
+                   }.to_json)
       end
     end
 
