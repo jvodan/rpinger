@@ -63,7 +63,9 @@ class Pinger
       @sent = 7
       STDERR.puts("EM")
       timer = EventMachine::PeriodicTimer.new(@period) do
+        @sent = 6
         do_pings
+        @sent = 5
         STDERR.puts("Got #{self}")
         STDERR.puts(values.to_json)
       end

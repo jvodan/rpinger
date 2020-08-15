@@ -1,7 +1,7 @@
 
   require 'sinatra'
   require 'yajl'
-
+require 'eventmachine'
   require 'stringio'
 
   require_relative 'pinger'
