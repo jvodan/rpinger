@@ -7,7 +7,7 @@ require 'eventmachine'
   require_relative 'pinger'
   $stderr.reopen("/var/log/pinger_error.log", "w")
   $stderr.sync = true
-
+EM.run do
   
   get '/pinger' do
     STDERR.puts("Got #{pinger}")
@@ -40,4 +40,4 @@ require 'eventmachine'
     $pinger ||= Pinger.instance(60, '8.8.8.8', 6)
     
   end
-
+end

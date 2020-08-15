@@ -55,10 +55,8 @@ class Pinger
   end
 
   def run_pinger
-    STDERR.puts("pinger")
-
     ping_mutex.synchronize {
-    EM.run do
+  
       @sent = 7
       STDERR.puts("EM")
       timer = EventMachine::PeriodicTimer.new(@period) do
@@ -67,7 +65,7 @@ class Pinger
         STDERR.puts("Got #{self}")
         STDERR.puts(values.to_json)
       end
-    end
+    
     }
   end
 
