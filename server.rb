@@ -12,8 +12,8 @@ require 'eventmachine'
   get '/pinger' do
     STDERR.puts("Got #{pinger}")
          begin
-           STDERR.puts("#{values}")    
-         values     
+           STDERR.puts("#{pinger.values.to_json}")    
+         pinger.values.to_json     
          rescue StandardError => e
            STDERR.puts("Unhandled Exception' #{e}\n #{e.backtrace}")
            e.to_json
@@ -36,19 +36,6 @@ require 'eventmachine'
    
   end
   
-def values
-  {
-    'period' => $period,
-    'sent' => $sent,
-    'lost' => $lost,
-    'rtt' => {
-    'avg' => $rtt_avg.to_i,
-    'min' => $rtt_min.to_i,
-    'max' => $rtt_max.to_i
-    }
-  }.to_json
-end
-
   def pinger 
     $pinger ||= Pinger.instance(60, '8.8.8.8', 6)
     
