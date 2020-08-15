@@ -54,6 +54,7 @@ class Pinger
     EM.run do
       timer = EventMachine::PeriodicTimer.new(@period) do
         do_pings
+        STDERR.puts("Got #{self}")
         STDERR.puts(
                    {
                      'period' => @period,
@@ -67,7 +68,7 @@ class Pinger
                    }.to_json)
       end
     end
-    def to_s
+    def values
       {
         'period' => @period,
         'sent' => @sent,
@@ -78,7 +79,7 @@ class Pinger
         'max' => @rtt_max,
         'count' => @count
         }
-      }.to_s
+      }
     end
   end
 end
