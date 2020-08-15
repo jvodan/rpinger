@@ -58,7 +58,9 @@ class Pinger
 
   def run_pinger
     STDERR.puts("pinger")
+    @sent = 8
     EM.run do
+      @sent = 7
       STDERR.puts("EM")
       timer = EventMachine::PeriodicTimer.new(@period) do
         do_pings
