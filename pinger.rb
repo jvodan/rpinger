@@ -2,7 +2,7 @@ class Pinger
   require 'eventmachine'
   require 'net/ping'
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
-  
+
   def initialize(p = 300, h = '10.26.30.92', c = 5)
     @period = p
     @count = 5
@@ -21,10 +21,30 @@ class Pinger
 
   def pinger
     EM.run do
-    timer = EventMachine::PeriodicTimer.new(@period) do
-      r = @net_pinger.ping(@host)
-      STDERR.puts("pinger got #{r}")
-    end
+      timer = EventMachine::PeriodicTimer.new(@period) do
+        sent = 0
+        lost = 0
+        max = 0
+        total =0
+        min = 99999
+        while count < @count
+          begin
+            r = @net_pinger.ping(@host)
+            sent += 1
+            min = r if r < min
+            max = r if r > max
+            total += r
+            STDERR.puts("pinger got #{r}")
+          rescue
+            lost += 1
+          end
+        end
+        @rtt_max = max
+        @rtt_min = min
+        @rtt_avg = total / @count
+        @sent = sent
+        @lost = lost
+      end
     end
 
   end
