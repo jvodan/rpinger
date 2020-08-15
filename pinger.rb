@@ -4,7 +4,7 @@ class Pinger
       @@instance ||= self.new(p , h , c )
     end
   end
-  
+
   require 'eventmachine'
   require 'net/ping'
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
@@ -56,30 +56,32 @@ class Pinger
         do_pings
         STDERR.puts("Got #{self}")
         STDERR.puts(
-                   {
-                     'period' => @period,
-                     'sent' => @sent,
-                     'lost' => @lost,
-                     'rtt' => {
-                     'avg' => @rtt_avg,
-                     'min' => @rtt_min,
-                     'max' => @rtt_max,
-                     }
-                   }.to_json)
+        {
+          'period' => @period,
+          'sent' => @sent,
+          'lost' => @lost,
+          'rtt' => {
+          'avg' => @rtt_avg,
+          'min' => @rtt_min,
+          'max' => @rtt_max,
+          }
+        }.to_json)
       end
     end
-    def values
-      {
-        'period' => @period,
-        'sent' => @sent,
-        'lost' => @lost,
-        'rtt' => {
-        'avg' => @rtt_avg,
-        'min' => @rtt_min,
-        'max' => @rtt_max,
-        'count' => @count
-        }
+  end
+
+  def values
+    {
+      'period' => @period,
+      'sent' => @sent,
+      'lost' => @lost,
+      'rtt' => {
+      'avg' => @rtt_avg,
+      'min' => @rtt_min,
+      'max' => @rtt_max,
+      'count' => @count
       }
-    end
+    }
+
   end
 end
