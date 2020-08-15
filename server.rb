@@ -46,8 +46,8 @@ def values
     'min' => $rtt_min.to_i,
     'max' => $rtt_max.to_i,
     'count' => $count
-    }.to_json
-  }
+    }
+  }.to_json
 end
 
   def pinger 
