@@ -14,6 +14,8 @@ class Pinger
     @period = p
     @count = c
     @host = h
+    @sent = 0
+    @lost = 0
   end
 
   def net_pinger
@@ -38,7 +40,7 @@ class Pinger
         max = r if r > max
         total += r
         STDERR.puts("pinger got #{r}")
-      rescue
+      rescue  #FIX ME why if DNS or no route ro hose
         lost += 1
       end
     end
@@ -50,12 +52,12 @@ class Pinger
   end
 
   def run_pinger
-    EM.run do
+#    EM.run do
       timer = EventMachine::PeriodicTimer.new(@period) do
         do_pings
         STDERR.puts("Got #{self}")
         STDERR.puts(values.to_json)
-      end
+#      end
     end
   end
 
