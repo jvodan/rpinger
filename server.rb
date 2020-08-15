@@ -1,4 +1,4 @@
-begin
+
   require 'sinatra'
   require 'yajl'
 
@@ -21,9 +21,7 @@ begin
            STDERR.puts("Unhandled Exception' #{e}\n #{e.backtrace}")
            e.to_json
          end
-       end
-
-  end     
+       end  
   
   class Application < Sinatra::Base
     set :sessions, true
