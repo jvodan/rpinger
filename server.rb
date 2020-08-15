@@ -30,7 +30,10 @@ begin
            e.to_json
          end
        end
-   
+  def  pinger 
+    @pinger ||= Pinger.instance(60, '8.8.8.8', 5)
+    
+  end
   end     
   
   class Application < Sinatra::Base
