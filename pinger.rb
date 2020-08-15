@@ -14,12 +14,10 @@ class Pinger
     @period = p
     @count = c
     @host = h
-    @rtt_max = 0
-    @rtt_min = 0
-    @rtt_avg = 0
-    @sent = 0
-    @lost = 0
-    @net_pinger = Net::Ping::ICMP.new(@host) #Net::Ping(@host, nil, timeout = 5)
+  end
+
+  def net_pinger
+    @net_pinger||= Net::Ping::ICMP.new(@host) #Net::Ping(@host, nil, timeout = 5)
   end
 
   def start_pinger
@@ -34,7 +32,7 @@ class Pinger
     min = 99999
     while sent < @count do
       begin
-        r = @net_pinger.ping(@host)
+        r = net_pinger.ping(@host)
         sent += 1
         min = r if r < min
         max = r if r > max
@@ -44,9 +42,9 @@ class Pinger
         lost += 1
       end
     end
-    @rtt_max = max
-    @rtt_min = min
-    @rtt_avg = total / @count
+    @rtt_max = max * 1000
+    @rtt_min = min * 1000 
+    @rtt_avg = total / @count * 1000
     @sent = sent
     @lost = lost
   end
@@ -67,9 +65,9 @@ class Pinger
       'sent' => @sent,
       'lost' => @lost,
       'rtt' => {
-      'avg' => @rtt_avg,
-      'min' => @rtt_min,
-      'max' => @rtt_max,
+      'avg' => @rtt_avg.to_i,
+      'min' => @rtt_min.to_i,
+      'max' => @rtt_max.to_i,
       'count' => @count
       }
     }
