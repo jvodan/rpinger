@@ -41,7 +41,8 @@ class Pinger
         max = r if r > max
         total += r
         STDERR.puts("pinger got #{r}")
-      rescue  #FIX ME why if DNS or no route ro hose
+      rescue  StandardError =>e #FIX ME why if DNS or no route ro hose
+        STDERR.puts("#{e}")
         lost += 1
       end
     end
