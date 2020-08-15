@@ -9,23 +9,19 @@ begin
   $stderr.sync = true
 
 
-    
-  #def pinger
-       $pinger ||= Pinger.new(60, '8.8.8.8', 5)
-   #  end
-  STDERR.puts("Got #{$pinger}")
-  $pinger.start_pinger
+  STDERR.puts("Got #{pinger}")
+  pinger.start_pinger
   
   get '/pinger' do
          begin
            {
-             'period' => $pinger.period,
-             'sent' => $pinger.sent,
-             'lost' => $pinger.lost,
+             'period' => pinger.period,
+             'sent' => pinger.sent,
+             'lost' => pinger.lost,
              'rtt' => {
-             'avg' => $pinger.rtt_avg,
-             'min' => $pinger.rtt_min,
-             'max' => $pinger.rtt_max,
+             'avg' => pinger.rtt_avg,
+             'min' => pinger.rtt_min,
+             'max' => pinger.rtt_max,
              }
            }.to_json
      
@@ -34,16 +30,23 @@ begin
            e.to_json
          end
        end
-       
+   
+  end     
+  
   class Application < Sinatra::Base
-    #  set :sessions, true
+    set :sessions, true
     set :logging, false
     set :run, true
     set :timeout, 290
 
 
     server.threaded = settings.threaded if server.respond_to? :threaded=
-
+ 
    
   end
-end
+  
+  def  pinger 
+    @pinger ||= Pinger.instance(60, '8.8.8.8', 5)
+    
+  end
+

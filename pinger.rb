@@ -1,4 +1,10 @@
 class Pinger
+  class << self
+    def instance(p = 60, h = '8.8.8.8', c = 5)
+      @@instance ||= self.new(p , h , c )
+    end
+  end
+  
   require 'eventmachine'
   require 'net/ping'
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
@@ -51,12 +57,12 @@ class Pinger
         STDERR.puts(
                    {
                      'period' => @period,
-                     'sent' => $pinger.sent,
+                     'sent' => @sent,
                      'lost' => @lost,
                      'rtt' => {
-                     'avg' => $pinger.rtt_avg,
-                     'min' => $pinger.rtt_min,
-                     'max' => $pinger.rtt_max,
+                     'avg' => @rtt_avg,
+                     'min' => @rtt_min,
+                     'max' => @rtt_max,
                      }
                    }.to_json)
       end
