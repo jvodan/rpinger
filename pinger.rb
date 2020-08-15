@@ -19,7 +19,7 @@ class Pinger
   end
 
   def net_pinger
-    @net_pinger||= Net::Ping::ICMP.new(@host) #Net::Ping(@host, nil, timeout = 5)
+    @net_pinger ||= Net::Ping::ICMP.new(@host) #Net::Ping(@host, nil, timeout = 5)
   end
 
   def start_pinger
@@ -32,6 +32,7 @@ class Pinger
     max = 0
     total =0
     min = 99999
+    STDERR.puts("Do Pongs")
     while sent < @@count do
       begin
         r = net_pinger.ping(@host)
@@ -52,7 +53,9 @@ class Pinger
   end
 
   def run_pinger
+    STDERR.puts("pinger")
     EM.run do
+      STDERR.puts("EM")
       timer = EventMachine::PeriodicTimer.new(@@period) do
         do_pings
         STDERR.puts("Got #{self}")
