@@ -47,7 +47,7 @@ class Pinger
       end
       $rtt_max = max * 1000
       $rtt_min = min * 1000
-      $rtt_avg = total / ( $sent -$lost ) * 1000
+      $rtt_avg = total / ( sent - lost ) * 1000
       $sent = sent
       $lost = lost
   end

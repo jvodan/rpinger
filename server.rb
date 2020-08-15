@@ -44,8 +44,7 @@ def values
     'rtt' => {
     'avg' => $rtt_avg.to_i,
     'min' => $rtt_min.to_i,
-    'max' => $rtt_max.to_i,
-    'count' => @count
+    'max' => $rtt_max.to_i
     }
   }.to_json
 end
