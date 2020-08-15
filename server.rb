@@ -7,7 +7,7 @@ begin
   require_relative 'pinger'
   $stderr.reopen("/var/log/pinger_error.log", "w")
   $stderr.sync = true
-
+  pinger ||= Pinger.instance(60, '8.8.8.8', 5)
 
   STDERR.puts("Got #{pinger}")
   pinger.start_pinger
@@ -30,10 +30,7 @@ begin
            e.to_json
          end
        end
-  def  pinger 
-    @pinger ||= Pinger.instance(60, '8.8.8.8', 5)
-    
-  end
+
   end     
   
   class Application < Sinatra::Base
