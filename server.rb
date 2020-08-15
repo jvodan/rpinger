@@ -7,7 +7,6 @@ begin
   require_relative 'pinger'
   $stderr.reopen("/var/log/pinger_error.log", "w")
   $stderr.sync = true
-  EM.run do
   $pinger ||= Pinger.instance(60, '8.8.8.8', 5)
 
   STDERR.puts("Got #{$pinger}")
@@ -42,5 +41,4 @@ begin
     $pinger ||= Pinger.instance(60, '8.8.8.8', 6)
     
   end
-end
 

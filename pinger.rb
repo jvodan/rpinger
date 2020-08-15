@@ -11,11 +11,11 @@ class Pinger
 
   def initialize(p = 60, h = '8.8.8.8', c = 5)
     STDERR.puts("pinger init")
-    @period = p
-    @count = c
-    @host = h
-    @sent = 0
-    @lost = 0
+    @@period = p
+    @@count = c
+    @@host = h
+    @@sent = 0
+    @@lost = 0
   end
 
   def net_pinger
@@ -32,7 +32,7 @@ class Pinger
     max = 0
     total =0
     min = 99999
-    while sent < @count do
+    while sent < @@count do
       begin
         r = net_pinger.ping(@host)
         sent += 1
@@ -46,31 +46,31 @@ class Pinger
     end
     @rtt_max = max * 1000
     @rtt_min = min * 1000 
-    @rtt_avg = total / @count * 1000
-    @sent = sent
-    @lost = lost
+    @rtt_avg = total / @@count * 1000
+    @@sent = sent
+    @@lost = lost
   end
 
   def run_pinger
-#    EM.run do
-      timer = EventMachine::PeriodicTimer.new(@period) do
+    EM.run do
+      timer = EventMachine::PeriodicTimer.new(@@period) do
         do_pings
         STDERR.puts("Got #{self}")
         STDERR.puts(values.to_json)
-#      end
+     end
     end
   end
 
   def values
     {
-      'period' => @period,
-      'sent' => @sent,
-      'lost' => @lost,
+      'period' => @@period,
+      'sent' => @@sent,
+      'lost' => @@lost,
       'rtt' => {
       'avg' => @rtt_avg.to_i,
       'min' => @rtt_min.to_i,
       'max' => @rtt_max.to_i,
-      'count' => @count
+      'count' => @@count
       }
     }
 
