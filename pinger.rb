@@ -76,6 +76,7 @@ class Pinger
         'avg' => @rtt_avg,
         'min' => @rtt_min,
         'max' => @rtt_max,
+        'count' => @count
         }
       }.to_s
     end
