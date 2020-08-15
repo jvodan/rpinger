@@ -14,8 +14,6 @@ class Pinger
     @period = p
     @count = c
     @host = h
-    @sent = 0
-    @lost = 0
   end
 
   def net_pinger
@@ -47,25 +45,25 @@ class Pinger
           sent += 1
         end
       end
-      @rtt_max = max * 1000
-      @rtt_min = min * 1000
-      @rtt_avg = total / @count * 1000
-      @sent = sent
-      @lost = lost
+      $rtt_max = max * 1000
+      $rtt_min = min * 1000
+      $rtt_avg = total / ( $sent -$lost ) * 1000
+      $sent = sent
+      $lost = lost
   end
 
   def run_pinger
     ping_mutex.synchronize {
-  
-      @sent = 7
+    EM.run do
+      $sent = 7
       STDERR.puts("EM")
       timer = EventMachine::PeriodicTimer.new(@period) do
-        @sent = 6
+        $sent = 6
         do_pings
         STDERR.puts("Got #{self}")
         STDERR.puts(values.to_json)
       end
-    
+    end
     }
   end
 
@@ -74,17 +72,7 @@ class Pinger
   end
 
   def values
-    {
-      'period' => @period,
-      'sent' => @sent,
-      'lost' => @lost,
-      'rtt' => {
-      'avg' => @rtt_avg.to_i,
-      'min' => @rtt_min.to_i,
-      'max' => @rtt_max.to_i,
-      'count' => @count
-      }
-    }
+
 
   end
 end

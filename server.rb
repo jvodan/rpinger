@@ -7,13 +7,13 @@ require 'eventmachine'
   require_relative 'pinger'
   $stderr.reopen("/var/log/pinger_error.log", "w")
   $stderr.sync = true
-EM.run do
+
   
   get '/pinger' do
     STDERR.puts("Got #{pinger}")
          begin
-           STDERR.puts("#{pinger.values.to_json}")    
-         pinger.values.to_json     
+           STDERR.puts("#{values}")    
+         values     
          rescue StandardError => e
            STDERR.puts("Unhandled Exception' #{e}\n #{e.backtrace}")
            e.to_json
@@ -36,8 +36,22 @@ EM.run do
    
   end
   
+def values
+  {
+    'period' => $period,
+    'sent' => $sent,
+    'lost' => $lost,
+    'rtt' => {
+    'avg' => $rtt_avg.to_i,
+    'min' => $rtt_min.to_i,
+    'max' => $rtt_max.to_i,
+    'count' => $count
+    }.to_json
+  }
+end
+
   def pinger 
     $pinger ||= Pinger.instance(60, '8.8.8.8', 6)
     
   end
-end
+
