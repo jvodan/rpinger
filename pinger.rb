@@ -27,7 +27,6 @@ class Pinger
   end
 
   def do_pings
-    ping_mutex.synchronize {
       sent = 0
       lost = 0
       max = 0
@@ -53,23 +52,23 @@ class Pinger
       @rtt_avg = total / @count * 1000
       @sent = sent
       @lost = lost
-    }
   end
 
   def run_pinger
     STDERR.puts("pinger")
-    @sent = 8
+
+    ping_mutex.synchronize {
     EM.run do
       @sent = 7
       STDERR.puts("EM")
       timer = EventMachine::PeriodicTimer.new(@period) do
         @sent = 6
         do_pings
-        @sent = 5
         STDERR.puts("Got #{self}")
         STDERR.puts(values.to_json)
       end
     end
+    }
   end
 
   def ping_mutex
