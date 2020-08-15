@@ -23,7 +23,7 @@ class Pinger
   end
 
   def start_pinger
-    @pinger_thread = Thread.new {pinger}
+    @pinger_thread = Thread.new {run_pinger}
   end
 
   def do_pings
@@ -51,7 +51,7 @@ class Pinger
     @lost = lost
   end
 
-  def pinger
+  def run_pinger
     EM.run do
       timer = EventMachine::PeriodicTimer.new(@period) do
         do_pings
