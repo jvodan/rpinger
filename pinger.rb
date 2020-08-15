@@ -35,7 +35,7 @@ class Pinger
     STDERR.puts("Do Pongs")
     while sent < @@count do
       begin
-        r = net_pinger.ping(@host)
+        r = net_pinger.ping(@@host)
         sent += 1
         min = r if r < min
         max = r if r > max
@@ -44,6 +44,7 @@ class Pinger
       rescue  StandardError =>e #FIX ME why if DNS or no route ro hose
         STDERR.puts("#{e}")
         lost += 1
+        sent += 1
       end
     end
     @rtt_max = max * 1000
