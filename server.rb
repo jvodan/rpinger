@@ -15,9 +15,10 @@ begin
   get '/pinger' do
     STDERR.puts("Got #{pinger}")
          begin
+           STDERR.puts("#{pinger.values.to_json}")    
          pinger.values.to_json     
          rescue StandardError => e
-           STDERR.puts('Unhandled Exception' + e.to_s + '\n' + e.backtrace.to_s )
+           STDERR.puts("Unhandled Exception' #{e}\n #{e.backtrace}")
            e.to_json
          end
        end

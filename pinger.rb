@@ -10,6 +10,7 @@ class Pinger
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
 
   def initialize(p = 60, h = '8.8.8.8', c = 5)
+    STDERR.puts("pinger init")
     @period = p
     @count = c
     @host = h
@@ -55,17 +56,7 @@ class Pinger
       timer = EventMachine::PeriodicTimer.new(@period) do
         do_pings
         STDERR.puts("Got #{self}")
-        STDERR.puts(
-        {
-          'period' => @period,
-          'sent' => @sent,
-          'lost' => @lost,
-          'rtt' => {
-          'avg' => @rtt_avg,
-          'min' => @rtt_min,
-          'max' => @rtt_max,
-          }
-        }.to_json)
+        STDERR.puts(values.to_json)
       end
     end
   end
