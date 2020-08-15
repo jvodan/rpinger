@@ -5,7 +5,7 @@ class Pinger
 
   def initialize(p = 60, h = '8.8.8.8', c = 5)
     @period = p
-    @count = 5
+    @count = c
     @host = h
     @rtt_max = 0
     @rtt_min = 0
@@ -25,6 +25,7 @@ class Pinger
     max = 0
     total =0
     min = 99999
+    STDERR.puts('DO pings')
     while count < @count
       begin
         r = @net_pinger.ping(@host)
@@ -45,7 +46,9 @@ class Pinger
   end
 
   def pinger
+    STDERR.puts("pinger ")
     EM.run do
+      STDERR.puts("EM")
       timer = EventMachine::PeriodicTimer.new(@period) do
         do_pings
       end
