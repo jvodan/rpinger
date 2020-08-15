@@ -11,9 +11,11 @@ begin
 
     
   #def pinger
-       $pinger ||= Pinger.new(300, '8.8.8.8', 5)
+       $pinger ||= Pinger.new(60, '8.8.8.8', 5)
    #  end
-
+  STDERR.puts("Got #{$pinger}")
+  $pinger.start_pinger
+  
   get '/pinger' do
          begin
            {
@@ -39,11 +41,8 @@ begin
     set :run, true
     set :timeout, 290
 
-    STDERR.puts("Got #{$pinger}")
-    $pinger.start_pinger
-    server.threaded = settings.threaded if server.respond_to? :threaded=
 
-  
+    server.threaded = settings.threaded if server.respond_to? :threaded=
 
    
   end
