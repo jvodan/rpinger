@@ -67,6 +67,17 @@ class Pinger
                    }.to_json)
       end
     end
-
+    def to_s
+      {
+        'period' => @period,
+        'sent' => @sent,
+        'lost' => @lost,
+        'rtt' => {
+        'avg' => @rtt_avg,
+        'min' => @rtt_min,
+        'max' => @rtt_max,
+        }
+      }.to_s
+    end
   end
 end
