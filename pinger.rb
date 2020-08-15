@@ -25,7 +25,7 @@ class Pinger
     max = 0
     total =0
     min = 99999
-    while sent < @count
+    while sent < @count do
       begin
         r = @net_pinger.ping(@host)
         sent += 1
