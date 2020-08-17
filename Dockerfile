@@ -21,12 +21,14 @@ RUN	apt-get -y update &&\
    gem update &&\					 
    gem install bundler &&\  				   
    gem install bundle &&\
-   gem install rake rainbows net-ping sinatra yajl ;\
+   gem install rake thin net-ping sinatra yajl ;\
    mkdir -p /opt/&&\
    cd /opt &&\
    git clone https://github.com/jvodan/rpinger.git /opt/app
    # gem install rake rainbows eventmachine net-ping sinatra yajl &&\
- CMD 'sleep 600'
+WORKDIR /opt/app
+ #CMD sleep 3000
+ ENTRYPOINT ["thin", "-p", "8181", "start"]
    
    
    

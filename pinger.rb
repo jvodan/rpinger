@@ -10,7 +10,6 @@ class Pinger
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
 
   def initialize(p = 60, h = '8.8.8.8', c = 5)
-    STDERR.puts("pinger init")
     @period = p
     @count = c
     @host = h
@@ -27,48 +26,37 @@ class Pinger
   end
 
   def do_pings
-      sent = 0
-      lost = 0
-      max = 0
-      total =0
-      min = 99999
-      STDERR.puts("Do Pongs")
-      while sent < @count do
-        begin
-          r = net_pinger.ping(@host)
-          sent += 1
-          min = r if r < min
-          max = r if r > max
-          total += r
-          STDERR.puts("pinger got #{r}")
-        rescue  StandardError =>e #FIX ME why if DNS or no route ro hose
-          STDERR.puts("#{e}")
-          lost += 1
-          sent += 1
-        end
+    sent = 0
+    lost = 0
+    max = 0
+    total =0
+    min = 99999
+    while sent < @count do
+      begin
+        r = net_pinger.ping(@host)
+        sent += 1
+        min = r if r < min
+        max = r if r > max
+        total += r
+      rescue  StandardError =>e #FIX ME why if DNS or no route ro hose
+        STDERR.puts("#{e}")
+        lost += 1
+        sent += 1
       end
-      @rtt_max = max * 1000
-      @rtt_min = min * 1000
-      @rtt_avg = total / (sent - lost) * 1000
-      @sent = sent
-      @lost = lost
+    end
+    @rtt_max = max * 1000
+    @rtt_min = min * 1000
+    @rtt_avg = total / (sent - lost) * 1000
+    @sent = sent
+    @lost = lost
   end
 
   def run_pinger
-    STDERR.puts("pinger")
 
     ping_mutex.synchronize {
- #   EM.run do
-      @sent = 7
-      STDERR.puts("EM")
       timer = EventMachine::PeriodicTimer.new(@period) do
-        @sent = 6
         do_pings
-        STDERR.puts("Got #{self}")
-        STDERR.puts(values.to_json)
-  #    end
-     
-    end
+      end
     }
   end
 
@@ -84,8 +72,7 @@ class Pinger
       'rtt' => {
       'avg' => @rtt_avg.to_i,
       'min' => @rtt_min.to_i,
-      'max' => @rtt_max.to_i,
-      'count' => @count
+      'max' => @rtt_max.to_i
       }
     }
 
