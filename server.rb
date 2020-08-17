@@ -8,7 +8,7 @@ $stderr.reopen("/var/log/pinger_error.log", "w")
 $stderr.sync = true
 $total_sent = 0
 $total_lost = 0
-$total_average = 0
+$total_avg = 0
 
 
 
