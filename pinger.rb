@@ -14,7 +14,10 @@ class Pinger
     @count = c
     @host = h
     @sent = 0
-    @lost = 0
+    @lost = 0 
+    @total_avg =  0
+    @total_sent = 0 
+    @total_lost = 0
   end
 
   def net_pinger
@@ -50,9 +53,9 @@ class Pinger
     @sent = sent
     @lost = lost
     n = ($total_sent - $total_lost) / @count
-    $total_avg =+  ($total_avg *  n + @rtt_avg ) / (n + 1)
-    $total_sent += send 
-    $total_lost += lost
+    @total_avg =+  ($total_avg *  n + @rtt_avg ) / (n + 1)
+    @total_sent += sent
+    @total_lost += lost
     end
 
   def run_pinger
@@ -68,6 +71,13 @@ class Pinger
     @ping_mutex ||= Mutex.new
   end
 
+   def history
+     {'sent' => @total_sent, 
+      'lost' => @total_lost,
+      'avg' => @total_avg
+     }
+   end
+  
   def values
     {
       'period' => @period,

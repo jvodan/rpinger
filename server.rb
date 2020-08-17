@@ -22,10 +22,7 @@ get '/pinger' do
 end
 
 get '/history' do
-  {'sent' => $total_sent, 
-   'lost' => $total_lost,
-   'avg' => $total_avg
-  }.to_json
+    pinger.history.to_json
 end
 
 class Application < Sinatra::Base
