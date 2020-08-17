@@ -49,8 +49,8 @@ class Pinger
     @rtt_avg = total / (sent - lost) * 1000
     @sent = sent
     @lost = lost
-    n = $total_sent - $total_lost
-    $total_avg =+  (total_avg *  n + @rtt_avg ) / (n + 1)
+    n = ($total_sent - $total_lost) / @count
+    $total_avg =+  ($total_avg *  n + @rtt_avg ) / (n + 1)
     $total_sent += send 
     $total_lost += lost
     end
