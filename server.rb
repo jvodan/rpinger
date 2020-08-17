@@ -6,6 +6,11 @@ require 'stringio'
 require_relative 'pinger'
 $stderr.reopen("/var/log/pinger_error.log", "w")
 $stderr.sync = true
+$total_sent = 0
+$total_lost = 0
+$total_average = 0
+
+
 
 get '/pinger' do
   begin
@@ -14,6 +19,13 @@ get '/pinger' do
     STDERR.puts("Unhandled Exception' #{e}\n #{e.backtrace}")
     e.to_json
   end
+end
+
+get '/history' do
+  {'sent' => $total_sent, 
+   'lost' => $total_lost,
+   'avg' => $total_avg
+  }.to_json
 end
 
 class Application < Sinatra::Base
