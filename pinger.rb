@@ -11,22 +11,23 @@ class Pinger
 
   def initialize(p = 60, h = '8.8.8.8', c = 5)
     if File.exist?('config.yml')
-    config_file = File.open('config.yml','r')
-     config = YAML::load(config_file)
-     unless config.nil?
-      STDERR.puts("loaded config as #{config}")
-       @period = config['period'] 
-       @count = config['count']
-       @host = config['host']
-     end
+      config_file = File.open('config.yml','r')
+      config = YAML::load(config_file)
+      unless config.nil?
+        STDERR.puts("loaded config as #{config}")
+        @period = config['period']
+        @count = config['count']
+        @host = config['host']
+      end
+    else
+      @period = p
+      @count = c
+      @host = h
     end
-    @period = p
-    @count = c
-    @host = h
     @sent = 0
-    @lost = 0 
+    @lost = 0
     @total_avg =  0
-    @total_sent = 0 
+    @total_sent = 0
     @total_lost = 0
   end
 
@@ -66,7 +67,7 @@ class Pinger
     @total_avg = (($total_avg *  n + @rtt_avg ) / (n + 1)).to_i
     @total_sent += sent
     @total_lost += lost
-    end
+  end
 
   def run_pinger
 
@@ -81,13 +82,13 @@ class Pinger
     @ping_mutex ||= Mutex.new
   end
 
-   def history
-     {'sent' => @total_sent, 
+  def history
+    {'sent' => @total_sent,
       'lost' => @total_lost,
       'avg' => @total_avg
-     }
-   end
-  
+    }
+  end
+
   def values
     {
       'period' => @period,
