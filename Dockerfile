@@ -27,8 +27,8 @@ RUN	apt-get -y update &&\
    git clone https://github.com/jvodan/rpinger.git /opt/app
    # gem install rake rainbows eventmachine net-ping sinatra yajl &&\
 WORKDIR /opt/app
- #CMD sleep 3000
- ENTRYPOINT ["thin", "-p", "8181", "start"]
+ CMD sleep 3000
+ #ENTRYPOINT ["thin", "-p", "8181", "start"]
    
    
    

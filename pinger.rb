@@ -10,12 +10,15 @@ class Pinger
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
 
   def initialize(p = 60, h = '8.8.8.8', c = 5)
-    config = YAML::load('config.yml') if File.exist?('config.yml')
-    unless config.nil?
-     STDERR.puts("loaded config as #{config}")
-      #@period 
-      #@count 
-      #@host =
+    if File.exist?('config.yml')
+    config_file = File.open('config.yml','r')
+     config = YAML::load(config_file)
+     unless config.nil?
+      STDERR.puts("loaded config as #{config}")
+       @period = config['period'] 
+       @count = config['count']
+       @host = config['host']
+     end
     end
     @period = p
     @count = c
