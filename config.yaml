@@ -1,0 +1,4 @@
+--- !ruby/object:Hash
+host: "8.8.8.8"
+period: 60
+count: 5

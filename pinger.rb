@@ -10,6 +10,13 @@ class Pinger
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
 
   def initialize(p = 60, h = '8.8.8.8', c = 5)
+    config = YAML::load('config.yml') if File.exist?('config.yml')
+    unless config.nil?
+     STDERR.puts("loaded config as #{config}")
+      #@period 
+      #@count 
+      #@host =
+    end
     @period = p
     @count = c
     @host = h
@@ -53,7 +60,7 @@ class Pinger
     @sent = sent
     @lost = lost
     n = ($total_sent - $total_lost) / @count
-    @total_avg =+  ($total_avg *  n + @rtt_avg ) / (n + 1)
+    @total_avg = (($total_avg *  n + @rtt_avg ) / (n + 1)).to_i
     @total_sent += sent
     @total_lost += lost
     end
