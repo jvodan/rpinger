@@ -10,7 +10,14 @@ $total_sent = 0
 $total_lost = 0
 $total_avg = 0
 
-
+get '/' do
+  begin
+    pinger.values.to_json
+  rescue StandardError => e
+    STDERR.puts("Unhandled Exception' #{e}\n #{e.backtrace}")
+    e.to_json
+  end
+end
 
 get '/pinger' do
   begin
@@ -22,7 +29,7 @@ get '/pinger' do
 end
 
 get '/history' do
-    pinger.history.to_json
+  pinger.history.to_json
 end
 
 class Application < Sinatra::Base

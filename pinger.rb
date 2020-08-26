@@ -10,8 +10,8 @@ class Pinger
   attr_accessor :period,:count,:host,:rtt_max,:rtt_min,:rtt_avg,:sent,:lost
 
   def initialize(p = 60, h = '8.8.8.8', c = 5)
-    if File.exist?('config.yml')
-      config_file = File.open('config.yml','r')
+    if File.exist?('conf/config.yaml')
+      config_file = File.open('conf/config.yaml','r')
       config = YAML::load(config_file)
       unless config.nil?
         STDERR.puts("loaded config as #{config}")
@@ -24,6 +24,7 @@ class Pinger
       @count = c
       @host = h
     end
+    STDERR.puts("Pinger #{@host} #{@count} times every #{@period} seconds")
     @sent = 0
     @lost = 0
     @total_avg =  0
