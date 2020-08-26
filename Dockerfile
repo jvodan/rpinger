@@ -26,7 +26,7 @@ RUN	apt-get -y update &&\
    cd /opt &&\
    git clone https://github.com/jvodan/rpinger.git /opt/app
   
-ADD scripts /usr/local/
+ADD scripts /usr/local/scripts
 WORKDIR /opt/app
  CMD sleep 3000
 ENTRYPOINT ["/usr/local/scripts/start.sh"]
