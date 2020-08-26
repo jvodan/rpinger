@@ -86,17 +86,17 @@ class Pinger
   end
 
   def history
-    {
+   [ {
       'label' => @name,
       'host' => @host,    
       'sent' => @total_sent,
       'lost' => @total_lost,
       'avg' => @total_avg
-    }
+    }]
   end
 
   def values
-    {
+   [ {
       'label' => @name,
       'host' => @host,    
       'period' => @period,
@@ -107,7 +107,7 @@ class Pinger
       'min' => @rtt_min.to_i,
       'max' => @rtt_max.to_i
       }
-    }
+    } ]
 
   end
 end
