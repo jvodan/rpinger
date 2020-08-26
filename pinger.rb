@@ -18,11 +18,13 @@ class Pinger
         @period = config['period']
         @count = config['count']
         @host = config['host']
+        @name  = config['label']
       end
     else
       @period = p
       @count = c
       @host = h
+      @name  = ''
     end
     STDERR.puts("Pinger #{@host} #{@count} times every #{@period} seconds")
     @sent = 0
@@ -85,6 +87,7 @@ class Pinger
 
   def history
     {
+      'label' => @name,
       'host' => @host,    
       'sent' => @total_sent,
       'lost' => @total_lost,
@@ -94,6 +97,7 @@ class Pinger
 
   def values
     {
+      'label' => @name,
       'host' => @host,    
       'period' => @period,
       'sent' => @sent,
