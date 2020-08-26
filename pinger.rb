@@ -84,7 +84,9 @@ class Pinger
   end
 
   def history
-    {'sent' => @total_sent,
+    {
+      'host' => @host,    
+      'sent' => @total_sent,
       'lost' => @total_lost,
       'avg' => @total_avg
     }
@@ -92,6 +94,7 @@ class Pinger
 
   def values
     {
+      'host' => @host,    
       'period' => @period,
       'sent' => @sent,
       'lost' => @lost,
